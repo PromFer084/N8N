@@ -157,7 +157,7 @@
     .submit-btn{background:#fff;color:var(--rojo-1);padding:.9rem 1.2rem;border:none;border-radius:50px;font-weight:900;cursor:pointer;transition:.25s;width:100%}
     .submit-btn:hover{background:#f8f9fa;transform:translateY(-2px);box-shadow:0 10px 25px rgba(255,255,255,.25)}
 
-    /* ===== Toast (aviso flotante) ===== */
+    /* ===== Toast flotante ===== */
     .toast{
       position:fixed; bottom:18px; left:50%;
       transform:translateX(-50%) translateY(12px);
@@ -173,8 +173,44 @@
     .toast.show{opacity:1; transform:translateX(-50%) translateY(0)}
     .toast.error{color:var(--rojo); border-left-color:var(--rojo)}
     .toast .emoji{font-size:1.3rem}
-    .toast .msg{white-space:nowrap}
-    
+
+    /* ===== FABs ===== */
+    .fab{
+      position:fixed; bottom:18px; width:56px; height:56px; border-radius:999px;
+      display:flex; align-items:center; justify-content:center; gap:.2rem;
+      color:#fff; text-decoration:none; box-shadow:0 12px 28px rgba(0,0,0,.22);
+      z-index:1300; transition:transform .2s ease, filter .2s ease;
+    }
+    .fab:focus-visible{outline:3px solid #fff; outline-offset:3px}
+    .fab:hover{transform:translateY(-2px); filter:brightness(1.05)}
+
+    .fab-whatsapp{right:18px; background:#25D366}
+    .fab-a11y{right:86px; background:#111; font-weight:900; font-size:20px}
+
+    /* ===== Versión accesible (alto contraste, fuente grande, daltónicos) ===== */
+    body.a11y{font-size:18px; line-height:1.8}
+    body.a11y a{text-decoration:underline}
+    body.a11y header, body.a11y .hero{background:#111 !important}
+    body.a11y .hero h1, body.a11y .hero .section-subtitle{color:#fff}
+    body.a11y .feature-icon{background:#1245F5}
+    /* Tarjetas con paleta segura (azules) */
+    body.a11y .pricing-card:is(:hover,:focus-visible),
+    body.a11y .pricing-card.selected{
+      background:linear-gradient(135deg,#1245F5 0%, #0A66C2 100%) !important;
+      color:#fff; border-color:transparent;
+    }
+    /* No depender solo del color para checks */
+    body.a11y .price-features li::before{content:"•"; color:#000}
+    /* Foco más visible */
+    body.a11y :focus-visible{outline:3px solid #1245F5; outline-offset:2px}
+
+    .a11y-banner{
+      display:none; position:fixed; top:64px; left:50%; transform:translateX(-50%);
+      background:#fff; color:#111; border:1px solid #e5e7eb; border-left:4px solid #1245F5;
+      padding:.5rem .8rem; border-radius:10px; z-index:1100; box-shadow:0 10px 24px rgba(0,0,0,.12)
+    }
+    body.a11y .a11y-banner{display:flex; gap:.6rem; align-items:center}
+
     /* ===== Footer ===== */
     footer{background:var(--oscuro);color:#fff;text-align:center;padding:2rem 0}
     .footer-content{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;margin-bottom:1rem}
@@ -188,10 +224,14 @@
       .form-row{grid-template-columns:1fr}
       .nav-links{display:none}
       .toast .msg{white-space:normal}
+      .fab-a11y{right:78px}
+    }
+    @media (prefers-reduced-motion: reduce){
+      *, *::before, *::after{transition:none !important; animation:none !important}
     }
   </style>
 </head>
-<body>
+<body id="top">
   <!-- ===== Header ===== -->
   <header>
     <nav class="container">
@@ -205,10 +245,15 @@
     </nav>
   </header>
 
+  <!-- Aviso de modo accesible -->
+  <div id="a11yBanner" class="a11y-banner" role="status" aria-live="polite">
+    Versión accesible activa. <a id="a11yBack" href="./">Volver a la versión estándar</a>
+  </div>
+
   <!-- ===== Hero ===== -->
-  <section class="hero">
+  <section class="hero" aria-labelledby="heroTitle">
     <div class="container">
-      <h1 class="shadow-text">Automatiza tu Negocio</h1>
+      <h1 id="heroTitle" class="shadow-text">Automatiza tu Negocio</h1>
       <p class="section-subtitle">Especialista en Workflows n8n</p>
     </div>
   </section>
@@ -251,15 +296,6 @@
   <section class="features" id="servicios">
     <div class="container">
       <h2 class="section-title">Mis Servicios</h2>
-      <p class="section-subtitle">Soluciones completas de automatización para tu negocio</p>
-      <div class="features-grid">
-        <div class="feature-card"><div class="feature-icon">🔗</div><h3>Integración de APIs</h3><p>Conecto CRM, email marketing, bases de datos y redes sociales.</p></div>
-        <div class="feature-card"><div class="feature-icon">⚡</div><h3>Automatización de Procesos</h3><p>Flujos inteligentes que te liberan de tareas repetitivas.</p></div>
-        <div class="feature-card"><div class="feature-icon">📊</div><h3>Reportes Automáticos</h3><p>Dashboards y reportes en tiempo real.</p></div>
-        <div class="feature-card"><div class="feature-icon">🎯</div><h3>Marketing Automation</h3><p>Emails, nurturing y segmentación.</p></div>
-        <div class="feature-card"><div class="feature-icon">💾</div><h3>Gestión de Datos</h3><p>Sincronización confiable entre plataformas.</p></div>
-        <div class="feature-card"><div class="feature-icon">🔧</div><h3>Soporte Continuo</h3><p>Mantenimiento y optimización constante.</p></div>
-      </div>
     </div>
   </section>
 
@@ -267,7 +303,6 @@
   <section class="workflow-demo">
     <div class="container">
       <h2 class="section-title">Ejemplo de Workflow</h2>
-      <p class="section-subtitle">Automatización de gestión de nuevos clientes</p>
       <div class="workflow-visual">
         <div class="workflow-nodes">
           <div class="node"><strong>📧 Nuevo Email</strong><br><small>Detección automática</small></div>
@@ -405,7 +440,15 @@
     <span class="msg">¡Gracias! Tu consulta fue enviada</span>
   </div>
 
-  <!-- ===== JS: FormSubmit AJAX (no scroll) + selección de tarjetas + toast ===== -->
+  <!-- ===== FABs: WhatsApp + Accesible ===== -->
+  <a class="fab fab-whatsapp" href="https://wa.me/5493512816260?text=Hola%20Fernando%2C%20quiero%20automatizar%20mi%20negocio%20con%20n8n." target="_blank" rel="noopener" aria-label="Abrir chat de WhatsApp">
+    <!-- Ícono WhatsApp -->
+    <svg viewBox="0 0 256 256" width="28" height="28" aria-hidden="true"><path fill="#fff" d="M128 20c-59.6 0-108 45.8-108 102.4 0 19.9 6 38.5 16.3 54l-10.7 39.5 40.5-10.7c15 9.2 32.8 14.5 52 14.5 59.6 0 108-45.8 108-102.4S187.6 20 128 20zm0 187.2c-17.8 0-34.3-5.2-48.1-14.1l-3.4-2.2-24 6.3 6.4-23.6-2.2-3.6c-9.9-14.8-15.7-32.4-15.7-51.1 0-49.2 39.8-89.2 88.9-89.2s88.9 40 88.9 89.2-39.8 89.3-88.8 89.3zm52.6-66.3c-2.9-1.7-17.1-9.4-19.7-10.4-2.6-1-4.5-1.7-6.5 1.7s-7.4 10.4-9.1 12.5c-1.7 2-3.3 2.2-6.2.7-2.9-1.7-12.2-4.4-23.2-14.1-8.6-7.4-14.4-16.6-16-19.4-1.7-2.9-.2-4.5 1.5-6.1 1.6-1.6 2.9-3.3 4.3-5.1 1.4-1.7 1.9-2.9 2.9-4.8 1-2 0.5-3.7-.3-5.1-.7-1.7-6.5-15.7-8.9-21.5-2.3-5.6-4.7-4.8-6.5-4.9-1.7-.1-3.7-.1-5.6-.1-2 .1-5.1.7-7.7 3.7s-10.1 9.9-10.1 24.2 10.4 28 11.9 30c1.4 2 20.5 31.2 49.7 43.7 6.9 3 12.3 4.8 16.5 6.1 6.9 2.2 13.1 1.9 18.1 1.2 5.5-.8 17.1-7 19.6-13.8 2.4-6.9 2.4-12.8 1.6-14.1-.7-1.2-2.6-2-5.5-3.7z"/></svg>
+  </a>
+
+  <a id="a11yBtn" class="fab fab-a11y" href="?a11y=1#top" aria-label="Versión accesible: alto contraste y fuente grande"><span aria-hidden="true">A+</span></a>
+
+  <!-- ===== JS: Toast + FormSubmit AJAX + selección de tarjetas + A11Y ===== -->
   <script>
     // --- Toast helpers ---
     (function(){
@@ -420,18 +463,17 @@
         toast.classList.add('show');
         clearTimeout(hideTimer);
         hideTimer = setTimeout(()=>{ toast.classList.remove('show'); }, duration);
-        // quitar del layout después de la animación
         toast.addEventListener('transitionend', () => { if(!toast.classList.contains('show')) toast.hidden = true; }, {once:true});
       };
     })();
 
-    // --- FormSubmit AJAX ---
+    // --- FormSubmit AJAX (no scroll) ---
     (function(){
       const form = document.querySelector('.contact-form');
       if(!form) return;
 
       form.addEventListener('submit', async (e)=>{
-        e.preventDefault(); // evita navegación → NO scroll
+        e.preventDefault();
         const honey = form.querySelector('input[name="_honey"]');
         if (honey && honey.value) return;
 
@@ -484,9 +526,32 @@
         });
       });
     })();
+
+    // --- Versión accesible (por query ?a11y=1) ---
+    (function(){
+      const params = new URLSearchParams(location.search);
+      const isA11y = params.get('a11y') === '1';
+      const body = document.body;
+      const banner = document.getElementById('a11yBanner');
+      const back = document.getElementById('a11yBack');
+      const a11yBtn = document.getElementById('a11yBtn');
+
+      if(isA11y){
+        body.classList.add('a11y');
+        banner.style.display = 'flex';
+        // Enlace para volver sin el query
+        const clean = location.pathname + (location.hash || '');
+        back.href = clean;
+        // En modo accesible, el FAB cambia a "volver"
+        a11yBtn.href = clean || '#top';
+        a11yBtn.setAttribute('aria-label','Volver a la versión estándar');
+        a11yBtn.querySelector('span').textContent = '↩';
+      }
+    })();
   </script>
 </body>
 </html>
+
 
 
 
