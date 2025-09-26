@@ -42,20 +42,15 @@
     }
     .nav-links a:hover{background:rgba(255,255,255,.22);transform:translateY(-1px)}
 
-    /* ===== Hero ===== */
+    /* ===== Hero (compacto, sin botones) ===== */
     .hero{
       background:linear-gradient(135deg,var(--rojo-1),var(--rojo-2));
-      color:#fff;padding:120px 0 72px;text-align:center;position:relative;overflow:hidden
+      color:#fff;
+      padding: clamp(92px, 12vw, 120px) 0 36px; /* compacto abajo */
+      text-align:center;position:relative;overflow:hidden
     }
-    .hero h1,.hero .section-subtitle,.hero p{color:var(--blanco-90)}
-    .cta-buttons{display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap;margin-top:.8rem}
-    .cta-button{display:inline-block;padding:13px 22px;text-decoration:none;border-radius:50px;font-weight:800;transition:.25s}
-    .cta-primary{background:#fff;color:var(--rojo-1)}
-    .cta-primary:hover{transform:translateY(-2px);box-shadow:0 10px 18px rgba(0,0,0,.12)}
-    .cta-secondary{background:transparent;border:2px solid #fff;color:#fff}
-    .cta-secondary:hover{background:#fff;color:var(--rojo-1)}
-    .cta-whatsapp{background:#25D366;color:#fff}
-    .cta-whatsapp:hover{filter:brightness(1.05);transform:translateY(-2px)}
+    .hero h1,.hero .section-subtitle{color:var(--blanco-90)}
+    .hero p{color:var(--blanco-90);max-width:920px;margin:12px auto 0}
 
     /* ===== Secciones ===== */
     .about{padding:64px 0;background:#f8fafc}
@@ -104,7 +99,7 @@
     .node::after{content:"→";position:absolute;right:-18px;top:50%;transform:translateY(-50%);color:var(--rojo-1);font-weight:800}
     .node:last-child::after{display:none}
 
-    /* ===== Pricing (hover exclusivo + atenuación de hermanas) ===== */
+    /* ===== Pricing (hover exclusivo + atenuación suave) ===== */
     .pricing{padding:64px 0;background:#f8fafc}
     .pricing-cards{
       display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
@@ -112,9 +107,16 @@
     }
     .pricing-card{
       position:relative;background:#ffffff;border-radius:18px;padding:1.8rem;text-align:center;
-      border:1px solid #eaeaea;box-shadow:0 10px 24px rgba(0,0,0,.06);
-      transition:transform .25s ease, box-shadow .25s ease, background .25s ease, color .25s ease, border-color .25s ease, filter .25s ease, opacity .25s ease;
-      cursor:pointer; outline:none;
+      border:1px solid #eaeaea;
+      box-shadow:0 10px 24px rgba(0,0,0,.06);
+      transition:transform .38s cubic-bezier(.22,1,.36,1),
+                 box-shadow .38s cubic-bezier(.22,1,.36,1),
+                 background .38s cubic-bezier(.22,1,.36,1),
+                 color .38s cubic-bezier(.22,1,.36,1),
+                 border-color .38s cubic-bezier(.22,1,.36,1),
+                 filter .38s cubic-bezier(.22,1,.36,1),
+                 opacity .38s cubic-bezier(.22,1,.36,1);
+      cursor:pointer;outline:none;
     }
     .price{font-size:clamp(2rem,5vw,2.8rem);font-weight:900;margin:.6rem 0}
     .price-period{opacity:.9}
@@ -122,27 +124,24 @@
     .price-features li{margin:.5rem 0;padding-left:1.4rem;position:relative}
     .price-features li::before{content:"✓";position:absolute;left:0;color:#10b981;font-weight:900}
 
-    /* Estado por defecto (todas blancas). La "destacada" solo tiene borde */
-    .pricing-card.featured{border:2px solid var(--rojo-1)}
-
-    /* Al pasar el mouse por el contenedor, atenúa TODAS… */
-    .pricing-cards:hover .pricing-card{opacity:.45;filter:grayscale(.15) saturate(.8);transform:none}
-    /* …excepto la que tiene hover/focus: se pinta en rojo y flota */
-    .pricing-card:hover,
-    .pricing-card:focus-visible{
+    /* Atenuar hermanas cuando el contenedor tiene hover (solo dispositivos con hover real) */
+    @media (hover: hover) and (pointer: fine){
+      .pricing-cards:hover .pricing-card{
+        opacity:.55; filter:saturate(.9) grayscale(.06); transform:none;
+      }
+    }
+    /* Activa (hover/focus) suave y exclusiva */
+    .pricing-card:is(:hover,:focus-visible){
       opacity:1!important; filter:none!important;
-      transform:translateY(-10px) scale(1.02);
+      transform:translateY(-6px) scale(1.01);
       box-shadow:0 18px 40px rgba(0,0,0,.12);
       border-color:transparent;
       background:linear-gradient(135deg, var(--rojo-1) 0%, var(--rojo-2) 100%);
       color:#fff;
     }
-    .pricing-card:hover .price-period,
-    .pricing-card:hover h3,
-    .pricing-card:focus-visible .price-period,
-    .pricing-card:focus-visible h3{color:#fff}
-    .pricing-card:hover .price-features li::before,
-    .pricing-card:focus-visible .price-features li::before{color:#fff}
+    .pricing-card:is(:hover,:focus-visible) .price-period,
+    .pricing-card:is(:hover,:focus-visible) h3{color:#fff}
+    .pricing-card:is(:hover,:focus-visible) .price-features li::before{color:#fff}
 
     /* ===== Contacto ===== */
     .contact{padding:64px 0;background:linear-gradient(135deg,var(--rojo-1),var(--rojo-2));color:#fff;text-align:center}
@@ -160,14 +159,12 @@
     textarea{resize:vertical;min-height:110px}
     .submit-btn{background:#fff;color:var(--rojo-1);padding:.9rem 1.2rem;border:none;border-radius:50px;font-weight:900;cursor:pointer;transition:.25s;width:100%}
     .submit-btn:hover{background:#f8f9fa;transform:translateY(-2px);box-shadow:0 10px 25px rgba(255,255,255,.25)}
-    .form-note{margin-top:.6rem;font-size:.95rem;color:#fefefe}
     .ok{background:#10b981;color:#fff;padding:.6rem;border-radius:10px;margin-top:.6rem;display:none}
 
     /* ===== Footer ===== */
     footer{background:var(--oscuro);color:#fff;text-align:center;padding:2rem 0}
     .footer-content{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;margin-bottom:1rem}
     .footer-section h4{margin-bottom:.6rem;color:var(--blanco-90)}
-    .wafloat{position:fixed;right:16px;bottom:16px;z-index:1200;background:#25D366;color:#fff;border-radius:999px;padding:12px 16px;font-weight:900;text-decoration:none;box-shadow:0 12px 30px rgba(0,0,0,.18)}
 
     /* ===== Animaciones & Responsive ===== */
     @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
@@ -193,17 +190,11 @@
     </nav>
   </header>
 
-  <!-- ===== Hero ===== -->
+  <!-- ===== Hero (solo encabezado) ===== -->
   <section class="hero">
     <div class="container">
       <h1 class="shadow-text">Automatiza tu Negocio</h1>
       <p class="section-subtitle">Especialista en Workflows n8n</p>
-      <p>Transformo procesos manuales repetitivos en sistemas automatizados eficientes que trabajan 24/7 para hacer crecer tu negocio.</p>
-      <div class="cta-buttons">
-        <a href="#contacto" class="cta-button cta-primary">Consulta Gratuita</a>
-        <a href="#servicios" class="cta-button cta-secondary">Ver Servicios</a>
-        <a class="cta-button cta-whatsapp" target="_blank" rel="noopener" href="https://wa.me/5493512816260?text=Hola%20Fernando%2C%20quiero%20automatizar%20mi%20negocio%20con%20n8n.">WhatsApp</a>
-      </div>
     </div>
   </section>
 
@@ -225,9 +216,6 @@
             </a>
             <a class="github" href="https://github.com/PromFer084" target="_blank" rel="noopener" aria-label="GitHub">
               <svg viewBox="0 0 24 24"><path d="M12 .5a12 12 0 0 0-3.79 23.4c.6.11.82-.26.82-.58v-2.2c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.74.08-.72.08-.72 1.2.08 1.83 1.24 1.83 1.24 1.07 1.83 2.8 1.3 3.48.99.11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.92 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.16 0 0 1.01-.32 3.3 1.23a11.4 11.4 0 0 1 6 0c2.29-1.55 3.3-1.23 3.3-1.23.66 1.64.25 2.86.12 3.16.77.84 1.24 1.9 1.24 3.22 0 4.6-2.8 5.62-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.21.69.82.58A12 12 0 0 0 12 .5z"/></svg>
-            </a>
-            <a class="whatsapp" href="https://wa.me/5493512816260?text=Hola%20Fernando%2C%20quiero%20automatizar%20mi%20negocio%20con%20n8n." target="_blank" rel="noopener" aria-label="WhatsApp">
-              <svg viewBox="0 0 24 24"><path d="M20.5 3.5A11 11 0 0 0 3.4 19.1L2 22l3-1.2A11 11 0 1 0 20.5 3.5Zm-8.4 2.1a6.9 6.9 0 0 1 6.9 6.9 6.8 6.8 0 0 1-9.2 6.3l-.7-.3-.7.3.2-.7-.5-.7a6.8 6.8 0 0 1 4-11.1Z"/></svg>
             </a>
             <a class="email" href="mailto:fernandomfer85@gmail.com" aria-label="Email">
               <svg viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2Zm0 4-8 5L4 8V6l8 5 8-5z"/></svg>
@@ -285,7 +273,7 @@
       <h2 class="section-title">Planes de Servicios</h2>
       <p class="section-subtitle">Soluciones adaptadas a cada tipo de negocio</p>
       <div class="pricing-cards">
-        <div class="pricing-card featured" role="button" tabindex="0" aria-label="Workflow Básico">
+        <div class="pricing-card" role="button" tabindex="0" aria-label="Workflow Básico">
           <h3>Workflow Básico</h3>
           <div class="price">$99<span class="price-period"> USD</span></div>
           <ul class="price-features">
@@ -347,9 +335,9 @@
           </div>
         </div>
 
-        <!-- FormSubmit: envía a fernandomfer85@gmail.com y limpia el form al redirigir -->
+        <!-- FormSubmit: envía a tu email y redirige de vuelta -->
         <form class="contact-form" action="https://formsubmit.co/fernandomfer85@gmail.com" method="POST">
-          <!-- Ajustá esta URL a tu GitHub Pages si cambia -->
+          <!-- Cambiá esta URL si tu Pages es otra -->
           <input type="hidden" name="_next" value="https://promfer084.github.io/N8N/?sent=1#contacto">
           <input type="hidden" name="_subject" value="Consulta desde la web">
           <input type="hidden" name="_template" value="table">
@@ -373,7 +361,6 @@
           <div class="form-group"><textarea name="mensaje" placeholder="Contame brevemente tu necesidad"></textarea></div>
           <button class="submit-btn" type="submit">Enviar</button>
           <div id="ok" class="ok">¡Gracias! Tu consulta fue enviada.</div>
-          <div class="form-note">* Recibirás mi respuesta en tu correo.</div>
         </form>
       </div>
     </div>
@@ -392,9 +379,6 @@
           <a class="github" href="https://github.com/PromFer084" target="_blank" rel="noopener" aria-label="GitHub">
             <svg viewBox="0 0 24 24"><path d="M12 .5a12 12 0 0 0-3.79 23.4c.6.11.82-.26.82-.58v-2.2c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.74.08-.72.08-.72 1.2.08 1.83 1.24 1.83 1.24 1.07 1.83 2.8 1.3 3.48.99.11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.92 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.16 0 0 1.01-.32 3.3 1.23a11.4 11.4 0 0 1 6 0c2.29-1.55 3.3-1.23 3.3-1.23.66 1.64.25 2.86.12 3.16.77.84 1.24 1.9 1.24 3.22 0 4.6-2.8 5.62-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.21.69.82.58A12 12 0 0 0 12 .5z"/></svg>
           </a>
-          <a class="whatsapp" href="https://wa.me/5493512816260?text=Hola%20Fernando%2C%20quiero%20automatizar%20mi%20negocio%20con%20n8n." target="_blank" rel="noopener" aria-label="WhatsApp">
-            <svg viewBox="0 0 24 24"><path d="M20.5 3.5A11 11 0 0 0 3.4 19.1L2 22l3-1.2A11 11 0 1 0 20.5 3.5Z"/></svg>
-          </a>
           <a class="email" href="mailto:fernandomfer85@gmail.com" aria-label="Email">
             <svg viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2Zm0 4-8 5L4 8V6l8 5 8-5z"/></svg>
           </a>
@@ -408,19 +392,17 @@
     <small>© <script>document.write(new Date().getFullYear())</script> Fernando R. Fernández</small>
   </footer>
 
-  <!-- Botón flotante de WhatsApp -->
-  <a class="wafloat" target="_blank" rel="noopener" href="https://wa.me/5493512816260?text=Hola%20Fernando%2C%20quiero%20automatizar%20mi%20negocio%20con%20n8n.">WhatsApp</a>
-
-  <!-- Aviso de “enviado” al volver con ?sent=1 -->
+  <!-- Mostrar “enviado” y limpiar al volver con ?sent=1 -->
   <script>
     (function(){
-      const params = new URLSearchParams(location.search);
-      if(params.get('sent') === '1'){
+      const p = new URLSearchParams(location.search);
+      if(p.get('sent') === '1'){
+        const form = document.querySelector('.contact-form');
+        if(form) form.reset();
         const ok = document.getElementById('ok');
-        if(ok){ ok.style.display = 'block'; }
-        // quitar el parámetro de la URL sin recargar
-        const clean = location.href.replace(/[?&]sent=1/, '');
-        window.history.replaceState({}, '', clean);
+        if(ok) ok.style.display = 'block';
+        // limpiar el parámetro de la URL sin recargar
+        history.replaceState({}, '', location.href.replace(/[?&]sent=1/, ''));
       }
     })();
   </script>
