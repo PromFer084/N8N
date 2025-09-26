@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Fernando R. Fernández - Workflows n8n</title>
   <style>
+    /* ===== Reset & Base ===== */
     *{margin:0;padding:0;box-sizing:border-box}
     html{scroll-behavior:smooth}
     body{
@@ -13,16 +14,21 @@
     }
     .container{max-width:1200px;margin:0 auto;padding:0 20px}
 
+    /* ===== Paleta ===== */
     :root{
       --rojo-1:#e74c3c; --rojo-2:#c0392b;
       --oscuro:#1f2937; --claro:#ffffff;
+      --gris:#4b5563;
       --blanco-90:rgba(255,255,255,.94); --blanco-80:rgba(255,255,255,.88);
     }
+
+    /* ===== Tipos ===== */
     h1{font-size:clamp(2rem,4.5vw,3.25rem)}
     h2{font-size:clamp(1.6rem,3.2vw,2.2rem)}
     .section-subtitle{font-size:clamp(1rem,2.2vw,1.2rem)}
     .shadow-text{ text-shadow:0 2px 6px rgba(0,0,0,.35) }
 
+    /* ===== Header ===== */
     header{
       background:linear-gradient(135deg,var(--rojo-1),var(--rojo-2));
       color:var(--claro);padding:.9rem 0;position:fixed;width:100%;top:0;z-index:1000;
@@ -37,6 +43,7 @@
     }
     .nav-links a:hover{background:rgba(255,255,255,.22);transform:translateY(-1px)}
 
+    /* ===== Hero ===== */
     .hero{
       background:linear-gradient(135deg,var(--rojo-1),var(--rojo-2));
       color:#fff;padding:120px 0 72px;text-align:center;position:relative;overflow:hidden
@@ -51,9 +58,11 @@
     .cta-whatsapp{background:#25D366;color:#fff}
     .cta-whatsapp:hover{filter:brightness(1.05);transform:translateY(-2px)}
 
+    /* ===== Secciones ===== */
     .about{padding:64px 0;background:#f8fafc}
     .section-title{text-align:center;margin-bottom:.6rem;color:#111827;font-weight:900}
-    .section-subtitle{text-align:center;color:#4b5563;margin:0 auto 2rem;max-width:680px}
+    .section-subtitle{text-align:center;color:var(--gris);margin:0 auto 2rem;max-width:680px}
+
     .about-content{display:grid;grid-template-columns:1fr 2fr;gap:2.2rem;align-items:center}
     .profile-card{background:#fff;padding:1.8rem;border-radius:16px;box-shadow:0 10px 28px rgba(0,0,0,.06);text-align:center}
 
@@ -78,12 +87,14 @@
     .socials a.email{background:#EA4335}
     .socials a:hover{transform:translateY(-2px);filter:brightness(1.07)}
 
+    /* ===== Features ===== */
     .features{padding:64px 0;background:#fff}
     .features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem;margin-top:1.6rem}
     .feature-card{background:#f8fafc;padding:1.6rem;border-radius:16px;text-align:center;transition:.25s;border:1px solid #eee}
     .feature-card:hover{transform:translateY(-6px);box-shadow:0 16px 28px rgba(0,0,0,.08);background:#fff}
     .feature-icon{width:64px;height:64px;background:linear-gradient(135deg,var(--rojo-1),var(--rojo-2));border-radius:16px;margin:0 auto 1rem;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.6rem}
 
+    /* ===== Workflow oscuro ===== */
     .workflow-demo{padding:64px 0;background:linear-gradient(135deg,#243447,#2f3f52);color:#fff}
     .workflow-demo .section-title{color:#fff}
     .workflow-demo .section-subtitle{color:var(--blanco-80)}
@@ -94,17 +105,57 @@
     .node::after{content:"→";position:absolute;right:-18px;top:50%;transform:translateY(-50%);color:var(--rojo-1);font-weight:800}
     .node:last-child::after{display:none}
 
+    /* ===== Pricing (flotantes + hover) ===== */
     .pricing{padding:64px 0;background:#f8fafc}
-    .pricing-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem;margin-top:1.6rem}
-    .pricing-card{background:#fff;border-radius:16px;padding:1.8rem;text-align:center;box-shadow:0 10px 28px rgba(0,0,0,.06);transition:.25s;border:2px solid transparent}
-    .pricing-card.featured{background:linear-gradient(135deg,var(--rojo-1),var(--rojo-2));color:#fff;transform:scale(1.02);border-color:var(--rojo-1)}
+    .pricing-cards{
+      display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+      gap:1rem;margin-top:1.6rem
+    }
+    .pricing-card{
+      position:relative;
+      background:#ffffff;
+      border-radius:18px;
+      padding:1.8rem;
+      text-align:center;
+      border:1px solid #eaeaea;
+      box-shadow:0 10px 24px rgba(0,0,0,.06);
+      transition:transform .25s ease, box-shadow .25s ease, background .25s ease, color .25s ease, border-color .25s ease;
+      cursor:pointer;
+    }
     .price{font-size:clamp(2rem,5vw,2.8rem);font-weight:900;margin:.6rem 0}
     .price-period{opacity:.9}
     .price-features{text-align:left;margin:1rem 0}
     .price-features li{margin:.5rem 0;padding-left:1.4rem;position:relative}
     .price-features li::before{content:"✓";position:absolute;left:0;color:#10b981;font-weight:900}
-    .pricing-card.featured .price-features li::before{color:#fff}
 
+    /* Hover general: flota + cambia a rojo degradado */
+    .pricing-card:hover{
+      transform:translateY(-10px) scale(1.02);
+      box-shadow:0 18px 40px rgba(0,0,0,.12);
+      border-color:transparent;
+      background:linear-gradient(135deg, var(--rojo-1) 0%, var(--rojo-2) 100%);
+      color:#fff;
+    }
+    .pricing-card:hover .price-period,
+    .pricing-card:hover h3{color:#fff}
+    .pricing-card:hover .price-features li::before{color:#fff}
+
+    /* Destacada por defecto en rojo */
+    .pricing-card.featured{
+      background:linear-gradient(135deg, var(--rojo-1) 0%, var(--rojo-2) 100%);
+      color:#fff;
+      border:2px solid var(--rojo-1);
+      transform:translateY(-2px);
+      box-shadow:0 14px 32px rgba(231,76,60,.25);
+    }
+    .pricing-card.featured .price-features li::before{color:#fff}
+    .pricing-card.featured:hover{
+      transform:translateY(-12px) scale(1.03);
+      filter:brightness(1.05);
+      box-shadow:0 22px 50px rgba(231,76,60,.35);
+    }
+
+    /* ===== Contacto ===== */
     .contact{padding:64px 0;background:linear-gradient(135deg,var(--rojo-1),var(--rojo-2));color:#fff;text-align:center}
     .contact .section-title{color:#fff}
     .contact .section-subtitle{color:var(--blanco-90)}
@@ -121,11 +172,13 @@
     .submit-btn{background:#fff;color:var(--rojo-1);padding:.9rem 1.2rem;border:none;border-radius:50px;font-weight:900;cursor:pointer;transition:.25s;width:100%}
     .submit-btn:hover{background:#f8f9fa;transform:translateY(-2px);box-shadow:0 10px 25px rgba(255,255,255,.25)}
 
+    /* ===== Footer ===== */
     footer{background:var(--oscuro);color:#fff;text-align:center;padding:2rem 0}
     .footer-content{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;margin-bottom:1rem}
     .footer-section h4{margin-bottom:.6rem;color:var(--blanco-90)}
     .wafloat{position:fixed;right:16px;bottom:16px;z-index:1200;background:#25D366;color:#fff;border-radius:999px;padding:12px 16px;font-weight:900;text-decoration:none;box-shadow:0 12px 30px rgba(0,0,0,.18)}
 
+    /* ===== Animaciones & Responsive ===== */
     @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
     @media (max-width:900px){
       .about-content{grid-template-columns:1fr}
@@ -136,6 +189,7 @@
   </style>
 </head>
 <body>
+  <!-- ===== Header ===== -->
   <header>
     <nav class="container">
       <div class="logo">n8n Workflows</div>
@@ -148,6 +202,7 @@
     </nav>
   </header>
 
+  <!-- ===== Hero ===== -->
   <section class="hero">
     <div class="container">
       <h1 class="shadow-text">Automatiza tu Negocio</h1>
@@ -161,6 +216,7 @@
     </div>
   </section>
 
+  <!-- ===== Sobre mí ===== -->
   <section class="about" id="sobre-mi">
     <div class="container">
       <h2 class="section-title">Sobre Mí</h2>
@@ -171,6 +227,7 @@
           <div class="profile-name">Fernando R. Fernández</div>
           <div class="profile-title">Especialista en n8n Workflows</div>
 
+          <!-- Redes sociales -->
           <div class="socials" aria-label="Redes sociales">
             <a class="linkedin" href="https://www.linkedin.com/in/fernandoraulfernandez/" target="_blank" rel="noopener" aria-label="LinkedIn">
               <svg viewBox="0 0 24 24"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5.001 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM14.5 9c-2.485 0-4.5 2.015-4.5 4.5V21h4v-6.2c0-1.49 1.012-2.3 2.2-2.3 1.13 0 2.3.77 2.3 2.3V21h4v-6.2C22 11.34 19.66 9 16.7 9c-1.07 0-2.35.53-3.2 1.4V9h-3z"/></svg>
@@ -197,6 +254,7 @@
     </div>
   </section>
 
+  <!-- ===== Servicios ===== -->
   <section class="features" id="servicios">
     <div class="container">
       <h2 class="section-title">Mis Servicios</h2>
@@ -212,6 +270,7 @@
     </div>
   </section>
 
+  <!-- ===== Workflow demo ===== -->
   <section class="workflow-demo">
     <div class="container">
       <h2 class="section-title">Ejemplo de Workflow</h2>
@@ -229,24 +288,52 @@
     </div>
   </section>
 
+  <!-- ===== Precios ===== -->
   <section class="pricing" id="precios">
     <div class="container">
       <h2 class="section-title">Planes de Servicios</h2>
       <p class="section-subtitle">Soluciones adaptadas a cada tipo de negocio</p>
       <div class="pricing-cards">
-        <div class="pricing-card"><h3>Workflow Básico</h3><div class="price">$99<span class="price-period"> USD</span></div>
-          <ul class="price-features"><li>Integración de 2-3 aplicaciones</li><li>1 workflow automatizado</li><li>Documentación completa</li><li>30 días de soporte</li><li>Capacitación básica</li></ul>
+        <div class="pricing-card">
+          <h3>Workflow Básico</h3>
+          <div class="price">$99<span class="price-period"> USD</span></div>
+          <ul class="price-features">
+            <li>Integración de 2-3 aplicaciones</li>
+            <li>1 workflow automatizado</li>
+            <li>Documentación completa</li>
+            <li>30 días de soporte</li>
+            <li>Capacitación básica</li>
+          </ul>
         </div>
-        <div class="pricing-card featured"><h3>Workflow Profesional</h3><div class="price">$299<span class="price-period"> USD</span></div>
-          <ul class="price-features"><li>Integración de 5-8 aplicaciones</li><li>3-5 workflows complejos</li><li>Lógica condicional avanzada</li><li>90 días de soporte premium</li><li>Capacitación completa del equipo</li><li>Optimización post-implementación</li></ul>
+        <div class="pricing-card featured">
+          <h3>Workflow Profesional</h3>
+          <div class="price">$299<span class="price-period"> USD</span></div>
+          <ul class="price-features">
+            <li>Integración de 5-8 aplicaciones</li>
+            <li>3-5 workflows complejos</li>
+            <li>Lógica condicional avanzada</li>
+            <li>90 días de soporte premium</li>
+            <li>Capacitación completa del equipo</li>
+            <li>Optimización post-implementación</li>
+          </ul>
         </div>
-        <div class="pricing-card"><h3>Workflow Enterprise</h3><div class="price">$499<span class="price-period"> USD</span></div>
-          <ul class="price-features"><li>Integración ilimitada</li><li>Workflows complejos interconectados</li><li>Dashboard personalizado</li><li>6 meses de soporte premium</li><li>Capacitación avanzada completa</li><li>Consultoría estratégica incluida</li></ul>
+        <div class="pricing-card">
+          <h3>Workflow Enterprise</h3>
+          <div class="price">$499<span class="price-period"> USD</span></div>
+          <ul class="price-features">
+            <li>Integración ilimitada</li>
+            <li>Workflows complejos interconectados</li>
+            <li>Dashboard personalizado</li>
+            <li>6 meses de soporte premium</li>
+            <li>Capacitación avanzada completa</li>
+            <li>Consultoría estratégica incluida</li>
+          </ul>
         </div>
       </div>
     </div>
   </section>
 
+  <!-- ===== Contacto ===== -->
   <section class="contact" id="contacto">
     <div class="container">
       <h2 class="section-title">¿Listo para Automatizar tu Negocio?</h2>
@@ -287,6 +374,7 @@
     </div>
   </section>
 
+  <!-- ===== Footer ===== -->
   <footer>
     <div class="container footer-content">
       <div class="footer-section">
@@ -315,8 +403,10 @@
     <small>© <script>document.write(new Date().getFullYear())</script> Fernando R. Fernández</small>
   </footer>
 
+  <!-- Botón flotante de WhatsApp -->
   <a class="wafloat" target="_blank" rel="noopener" href="https://wa.me/5493512816260?text=Hola%20Fernando%2C%20quiero%20automatizar%20mi%20negocio%20con%20n8n.">WhatsApp</a>
 </body>
 </html>
+
 
 
