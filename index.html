@@ -2,16 +2,17 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Fernando R. Fernández - Automatizá tu Negocio con ayuda de la IA y N8N</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fernando R. Fernández - Especialista en Workflows n8n</title>
   <style>
     /* ===== Reset & Tipografía (San Francisco / system-ui) ===== */
     *{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth}
     body{
       font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display",
         "San Francisco","Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Helvetica Neue",
         system-ui,sans-serif;
-      line-height:1.6;color:#333;overflow-x:hidden
+      line-height:1.6;color:#212529;background:#fff;overflow-x:hidden
     }
     .container{max-width:1200px;margin:0 auto;padding:0 20px}
 
@@ -19,135 +20,158 @@
     :root{
       --rojo-1:#e74c3c; /* principal */
       --rojo-2:#c0392b; /* degradado */
-      --oscuro:#2c3e50;
-      --claro:#fff;
+      --oscuro:#1f2937;
+      --claro:#ffffff;
+      --gris-700:#374151;
+      --gris-600:#4b5563;
+      --blanco-90:rgba(255,255,255,.94);
+      --blanco-80:rgba(255,255,255,.88);
     }
 
-    /* ===== Header (fondo rojo → texto blanco alto contraste) ===== */
+    /* ===== Utilidades ===== */
+    .text-white{color:#fff!important}
+    .text-white-90{color:var(--blanco-90)!important}
+    .text-white-80{color:var(--blanco-80)!important}
+    .shadow-text{ text-shadow: 0 2px 6px rgba(0,0,0,.35); }
+    a{color:inherit}
+
+    /* ===== Títulos responsivos ===== */
+    h1{font-size:clamp(2rem, 4.5vw, 3.25rem)}
+    h2{font-size:clamp(1.6rem, 3.2vw, 2.2rem)}
+    .subtitle, .section-subtitle{font-size:clamp(1rem, 2.2vw, 1.2rem)}
+
+    /* ===== Header ===== */
     header{
       background:linear-gradient(135deg,var(--rojo-1) 0%,var(--rojo-2) 100%);
-      color:var(--claro);padding:1rem 0;position:fixed;width:100%;top:0;z-index:1000;
-      backdrop-filter:blur(10px);box-shadow:0 2px 20px rgba(231,76,60,.3)
+      color:var(--claro);padding:.9rem 0;position:fixed;width:100%;top:0;z-index:1000;
+      backdrop-filter:blur(10px);box-shadow:0 2px 20px rgba(231,76,60,.28)
     }
-    nav{display:flex;justify-content:space-between;align-items:center}
-    .logo{font-size:1.8rem;font-weight:700;display:flex;align-items:center;gap:10px}
-    .logo::before{content:"⚡";font-size:2rem;animation:pulse 2s infinite}
-    .nav-links{display:flex;gap:2rem}
+    nav{display:flex;justify-content:space-between;align-items:center;gap:1rem}
+    .logo{font-weight:800;display:flex;align-items:center;gap:10px}
+    .logo::before{content:"⚡";font-size:1.6rem;animation:pulse 2s infinite}
+    .nav-links{display:flex;gap:1rem;flex-wrap:wrap}
     .nav-links a{
-      color:var(--claro);text-decoration:none;transition:.3s;padding:8px 16px;border-radius:25px;
-      font-weight:600
+      color:var(--claro);text-decoration:none;transition:.25s;padding:6px 12px;border-radius:18px;
+      font-weight:700
     }
-    .nav-links a:hover{background:rgba(255,255,255,.22);transform:translateY(-2px)}
+    .nav-links a:hover{background:rgba(255,255,255,.22);transform:translateY(-1px)}
 
-    /* ===== Hero (fondo rojo → texto blanco) ===== */
+    /* ===== Hero ===== */
     .hero{
       background:linear-gradient(135deg,var(--rojo-1) 0%,var(--rojo-2) 100%);
-      color:var(--claro);padding:120px 0 80px;text-align:center;position:relative;overflow:hidden
+      color:var(--claro);padding:120px 0 72px;text-align:center;position:relative;overflow:hidden
     }
     .hero::before{
       content:"";position:absolute;inset:0;
-      background:url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="g" width="8" height="8" patternUnits="userSpaceOnUse"><path d="M 8 0 L 0 0 0 8" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23g)"/></svg>')
+      background:radial-gradient(ellipse at center, rgba(255,255,255,.06), transparent 50%);
     }
     .hero-content{position:relative;z-index:1}
-    .hero h1{font-size:4rem;margin-bottom:1rem;animation:fadeInUp 1s ease-out;text-shadow:0 2px 6px rgba(0,0,0,.35)}
-    .hero .subtitle{font-size:1.5rem;margin-bottom:1rem;opacity:.95;animation:fadeInUp 1s .2s both;font-weight:500}
-    .hero p{font-size:1.2rem;margin-bottom:2.5rem;opacity:.95;animation:fadeInUp 1s .4s both;max-width:640px;margin-left:auto;margin-right:auto}
-    .cta-buttons{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;animation:fadeInUp 1s .6s both}
-    .cta-button{display:inline-block;padding:15px 30px;text-decoration:none;border-radius:50px;font-weight:800;font-size:1.05rem;transition:.3s;position:relative;overflow:hidden}
-    .cta-primary{background:var(--claro);color:var(--rojo-1);box-shadow:0 10px 30px rgba(255,255,255,.35)}
-    .cta-primary:hover{transform:translateY(-3px);box-shadow:0 15px 40px rgba(255,255,255,.45)}
-    .cta-secondary{background:transparent;color:var(--claro);border:2px solid var(--claro)}
-    .cta-secondary:hover{background:var(--claro);color:var(--rojo-1);transform:translateY(-3px)}
+    .hero h1{margin-bottom:.6rem} 
+    .hero .subtitle{margin-bottom:.6rem}
+    .hero p{margin:0 auto 1.6rem;max-width:680px}
+    .hero h1, .hero .subtitle, .hero p{ color:var(--blanco-90); }
+    .hero h1, .hero .subtitle{ text-shadow:0 2px 6px rgba(0,0,0,.35) }
+
+    .cta-buttons{display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap;margin-top:.8rem}
+    .cta-button{display:inline-block;padding:13px 22px;text-decoration:none;border-radius:50px;font-weight:800;transition:.25s}
+    .cta-primary{background:#fff;color:var(--rojo-1)}
+    .cta-primary:hover{transform:translateY(-2px);box-shadow:0 10px 18px rgba(0,0,0,.12)}
+    .cta-secondary{background:transparent;border:2px solid #fff;color:#fff}
+    .cta-secondary:hover{background:#fff;color:var(--rojo-1)}
     .cta-whatsapp{background:#25D366;color:#fff}
-    .cta-whatsapp:hover{filter:brightness(1.05);transform:translateY(-3px)}
+    .cta-whatsapp:hover{filter:brightness(1.05);transform:translateY(-2px)}
 
     /* ===== Secciones claras ===== */
-    .about{padding:80px 0;background:#f8f9fa}
-    .section-title{text-align:center;font-size:2.6rem;margin-bottom:1rem;color:#333;position:relative}
-    .section-subtitle{text-align:center;font-size:1.15rem;color:#666;margin-bottom:3rem;max-width:600px;margin-inline:auto}
-    .about-content{display:grid;grid-template-columns:1fr 2fr;gap:4rem;align-items:center}
-    .profile-card{background:#fff;padding:2.5rem;border-radius:20px;box-shadow:0 15px 40px rgba(0,0,0,.08);text-align:center;position:relative}
-    .profile-avatar{width:150px;height:150px;background:linear-gradient(135deg,var(--rojo-1) 0%,var(--rojo-2) 100%);border-radius:50%;margin:0 auto 1.5rem;display:flex;align-items:center;justify-content:center;font-size:4rem;color:#fff;box-shadow:0 10px 30px rgba(231,76,60,.3)}
-    .profile-name{font-size:1.8rem;font-weight:800;margin-bottom:.5rem;color:#333}
-    .profile-title{color:var(--rojo-1);font-size:1.05rem;margin-bottom:1.5rem;font-weight:700}
-    .contact-info{text-align:left;margin-top:1.5rem}
-    .contact-item{display:flex;align-items:center;margin-bottom:1rem;padding:.5rem;transition:.3s;border-radius:8px}
-    .contact-item:hover{background:#f1f2f4;transform:translateX(5px)}
-    .contact-item a{color:#333;text-decoration:none;font-weight:600}
+    .about{padding:64px 0;background:#f8fafc}
+    .section-title{text-align:center;margin-bottom:.6rem;color:#111827;font-weight:900}
+    .section-subtitle{text-align:center;color:#4b5563;margin:0 auto 2rem;max-width:680px}
+
+    .about-content{display:grid;grid-template-columns:1fr 2fr;gap:2.2rem;align-items:center}
+    .profile-card{background:#fff;padding:1.8rem;border-radius:16px;box-shadow:0 10px 28px rgba(0,0,0,.06);text-align:center}
+    .profile-photo{
+      width:140px;height:140px;border-radius:50%;object-fit:cover;object-position:center;
+      margin:0 auto 1rem;display:block;box-shadow:0 10px 22px rgba(231,76,60,.28);
+      border:4px solid #fff;background:#fff
+    }
+    .profile-name{font-weight:800;margin-bottom:.3rem;color:#111827}
+    .profile-title{color:var(--rojo-1);font-weight:700;margin-bottom:1rem}
+
+    /* ===== Social icons ===== */
+    .socials{display:flex;justify-content:center;gap:.6rem;margin-top:.6rem;flex-wrap:wrap}
+    .socials a{
+      display:inline-flex;align-items:center;justify-content:center;
+      width:40px;height:40px;border-radius:999px;text-decoration:none;background:#f3f4f6;
+      transition:.2s;border:1px solid #e5e7eb
+    }
+    .socials a:hover{transform:translateY(-2px);box-shadow:0 10px 18px rgba(0,0,0,.08)}
+    .socials svg{width:20px;height:20px}
+
+    .contact-info{text-align:left;margin-top:1rem}
+    .contact-item{display:flex;align-items:center;gap:.6rem;margin:.5rem 0;padding:.4rem .5rem;border-radius:8px;transition:.2s}
+    .contact-item:hover{background:#eef2f7;transform:translateX(4px)}
+    .contact-item a{color:#111827;text-decoration:none;font-weight:600}
     .contact-item a:hover{color:var(--rojo-1)}
 
-    /* ===== Cards, demo y precios (se mantienen) ===== */
-    .features{padding:80px 0;background:#fff}
-    .features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:2rem;margin-top:3rem}
-    .feature-card{background:#f8f9fa;padding:2.5rem;border-radius:20px;text-align:center;transition:.3s;border:1px solid #eee;position:relative;overflow:hidden}
-    .feature-card::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;background:linear-gradient(135deg,var(--rojo-1) 0%,var(--rojo-2) 100%);transform:scaleX(0);transition:transform .3s}
-    .feature-card:hover::before{transform:scaleX(1)}
-    .feature-card:hover{transform:translateY(-10px);box-shadow:0 20px 40px rgba(0,0,0,.08);background:#fff}
-    .feature-icon{width:80px;height:80px;background:linear-gradient(135deg,var(--rojo-1) 0%,var(--rojo-2) 100%);border-radius:20px;display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;font-size:2.5rem;color:#fff;box-shadow:0 10px 25px rgba(231,76,60,.3)}
+    /* ===== Features & Pricing ===== */
+    .features{padding:64px 0;background:#fff}
+    .features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem;margin-top:1.6rem}
+    .feature-card{background:#f8fafc;padding:1.6rem;border-radius:16px;text-align:center;transition:.25s;border:1px solid #eee}
+    .feature-card:hover{transform:translateY(-6px);box-shadow:0 16px 28px rgba(0,0,0,.08);background:#fff}
+    .feature-icon{width:64px;height:64px;background:linear-gradient(135deg,var(--rojo-1) 0%,var(--rojo-2) 100%);border-radius:16px;margin:0 auto 1rem;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.6rem}
 
-    .workflow-demo{padding:80px 0;background:linear-gradient(135deg,#2c3e50 0%,#34495e 100%);color:#fff}
-    .workflow-visual{background:rgba(255,255,255,.1);border-radius:20px;padding:3rem;margin:3rem 0;backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.2)}
-    .workflow-nodes{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1.5rem}
-    .node{background:#fff;color:#333;padding:1.5rem;border-radius:15px;box-shadow:0 10px 25px rgba(0,0,0,.18);text-align:center;flex:1;min-width:140px;position:relative;transition:transform .3s}
-    .node:hover{transform:scale(1.05)}
-    .node::after{content:"→";position:absolute;right:-25px;top:50%;transform:translateY(-50%);color:var(--rojo-1);font-size:2rem;font-weight:700}
+    /* ===== Workflow oscuro ===== */
+    .workflow-demo{padding:64px 0;background:linear-gradient(135deg,#243447 0%, #2f3f52 100%);color:#fff}
+    .workflow-demo .section-title{color:#fff}
+    .workflow-demo .section-subtitle{color:var(--blanco-80)}
+    .workflow-visual{background:rgba(255,255,255,.08);border-radius:16px;padding:2rem;margin:1.6rem 0;border:1px solid rgba(255,255,255,.18)}
+    .workflow-nodes{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+    .node{background:#fff;color:#111827;padding:1rem;border-radius:12px;box-shadow:0 10px 22px rgba(0,0,0,.18);text-align:center;flex:1;min-width:140px;position:relative;transition:transform .25s}
+    .node:hover{transform:scale(1.03)}
+    .node::after{content:"→";position:absolute;right:-18px;top:50%;transform:translateY(-50%);color:var(--rojo-1);font-weight:800}
     .node:last-child::after{display:none}
 
-    .pricing{padding:80px 0;background:#f8f9fa}
-    .pricing-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:2rem;margin-top:3rem}
-    .pricing-card{background:#fff;border-radius:20px;padding:2.5rem;text-align:center;box-shadow:0 15px 40px rgba(0,0,0,.08);transition:.3s;position:relative;border:2px solid transparent}
-    .pricing-card.featured{background:linear-gradient(135deg,var(--rojo-1) 0%,var(--rojo-2) 100%);color:#fff;transform:scale(1.05);border-color:var(--rojo-1)}
-    .pricing-card:hover{transform:translateY(-10px);box-shadow:0 25px 50px rgba(0,0,0,.12)}
-    .pricing-card.featured:hover{transform:scale(1.05) translateY(-10px)}
-    .price{font-size:3.5rem;font-weight:900;margin:1rem 0}
-    .price-period{opacity:.9;font-size:1rem}
-    .price-features{text-align:left;margin:2rem 0}
-    .price-features li{margin:.8rem 0;padding-left:1.5rem;position:relative}
-    .price-features li::before{content:"✓";position:absolute;left:0;color:#27ae60;font-weight:900}
+    /* ===== Pricing ===== */
+    .pricing{padding:64px 0;background:#f8fafc}
+    .pricing-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem;margin-top:1.6rem}
+    .pricing-card{background:#fff;border-radius:16px;padding:1.8rem;text-align:center;box-shadow:0 10px 28px rgba(0,0,0,.06);transition:.25s;border:2px solid transparent}
+    .pricing-card.featured{background:linear-gradient(135deg,var(--rojo-1) 0%,var(--rojo-2) 100%);color:#fff;transform:scale(1.02);border-color:var(--rojo-1)}
+    .price{font-size:clamp(2rem,5vw,2.8rem);font-weight:900;margin:.6rem 0}
+    .price-period{opacity:.9}
+    .price-features{text-align:left;margin:1rem 0}
+    .price-features li{margin:.5rem 0;padding-left:1.4rem;position:relative}
+    .price-features li::before{content:"✓";position:absolute;left:0;color:#10b981;font-weight:900}
     .pricing-card.featured .price-features li::before{color:#fff}
 
-    /* ===== Contacto (fondo rojo → texto blanco) ===== */
-    .contact{
-      padding:80px 0;background:linear-gradient(135deg,var(--rojo-1) 0%,var(--rojo-2) 100%);
-      color:#fff;text-align:center
-    }
-    .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;margin-top:3rem;align-items:start}
+    /* ===== Contacto rojo con texto blanco ===== */
+    .contact{padding:64px 0;background:linear-gradient(135deg,var(--rojo-1) 0%,var(--rojo-2) 100%);color:#fff;text-align:center}
+    .contact .section-title{color:#fff}
+    .contact .section-subtitle{color:var(--blanco-90)}
+    .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-top:1.6rem;align-items:start}
     .contact-info-section{text-align:left}
-    .contact-info-section h3{font-size:1.8rem;margin-bottom:2rem}
-    .contact-method{display:flex;align-items:center;margin-bottom:1.2rem;padding:1rem;background:rgba(255,255,255,.12);border-radius:10px;transition:.3s}
-    .contact-method:hover{background:rgba(255,255,255,.22);transform:translateX(10px)}
-    .contact-method a{color:#fff;text-decoration:none;font-weight:700}
-    .contact-form{background:rgba(255,255,255,.12);padding:2rem;border-radius:20px;backdrop-filter:blur(10px)}
-    .form-group{margin-bottom:1.2rem}
-    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
-    input,textarea,select{width:100%;padding:1rem;border:none;border-radius:10px;font-size:1rem;background:#fff;color:#333}
-    textarea{resize:vertical;min-height:120px}
-    .submit-btn{background:#fff;color:var(--rojo-1);padding:1rem 2rem;border:none;border-radius:50px;font-size:1.1rem;font-weight:900;cursor:pointer;transition:.3s;width:100%}
-    .submit-btn:hover{background:#f8f9fa;transform:translateY(-2px);box-shadow:0 10px 25px rgba(255,255,255,.3)}
+    .contact-method{display:flex;align-items:center;gap:.8rem;margin-bottom:.9rem;padding:.9rem;background:rgba(255,255,255,.12);border-radius:10px;transition:.25s}
+    .contact-method:hover{background:rgba(255,255,255,.2);transform:translateX(6px)}
+    .contact-method a{color:#fff;text-decoration:none;font-weight:800}
+    .contact-form{background:rgba(255,255,255,.12);padding:1.4rem;border-radius:16px}
+    .form-group{margin-bottom:.9rem}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+    input,textarea,select{width:100%;padding:.9rem;border:none;border-radius:10px;font-size:1rem;background:#fff;color:#111827}
+    textarea{resize:vertical;min-height:110px}
+    .submit-btn{background:#fff;color:var(--rojo-1);padding:.9rem 1.2rem;border:none;border-radius:50px;font-weight:900;cursor:pointer;transition:.25s;width:100%}
+    .submit-btn:hover{background:#f8f9fa;transform:translateY(-2px);box-shadow:0 10px 25px rgba(255,255,255,.25)}
 
-    footer{background:var(--oscuro);color:#fff;text-align:center;padding:3rem 0}
-    .footer-content{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:2rem;margin-bottom:2rem}
-    .footer-section h4{margin-bottom:1rem;color:var(--rojo-1)}
+    footer{background:var(--oscuro);color:#fff;text-align:center;padding:2rem 0}
+    .footer-content{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;margin-bottom:1rem}
+    .footer-section h4{margin-bottom:.6rem;color:var(--blanco-90)}
 
     /* ===== Botón flotante de WhatsApp ===== */
-    .wafloat{
-      position:fixed;right:18px;bottom:18px;z-index:1200;
-      background:#25D366;color:#fff;border-radius:999px;
-      padding:14px 18px;font-weight:900;text-decoration:none;
-      box-shadow:0 12px 30px rgba(0,0,0,.18)
-    }
+    .wafloat{position:fixed;right:16px;bottom:16px;z-index:1200;background:#25D366;color:#fff;border-radius:999px;padding:12px 16px;font-weight:900;text-decoration:none;box-shadow:0 12px 30px rgba(0,0,0,.18)}
 
     /* ===== Animaciones & Responsive ===== */
-    @keyframes fadeInUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
     @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
-    @media (max-width:768px){
-      .hero h1{font-size:2.4rem}
-      .cta-buttons{flex-direction:column;align-items:center}
-      .about-content{grid-template-columns:1fr;gap:2rem}
-      .contact-grid{grid-template-columns:1fr;gap:2rem}
+    @media (max-width:900px){
+      .about-content{grid-template-columns:1fr}
+      .contact-grid{grid-template-columns:1fr}
       .form-row{grid-template-columns:1fr}
-      .workflow-nodes{flex-direction:column}
-      .node::after{content:"↓";right:50%;top:100%;transform:translateX(50%)}
       .nav-links{display:none}
     }
   </style>
@@ -168,17 +192,13 @@
   <section class="hero">
     <div class="container">
       <div class="hero-content">
-        <h1>Automatiza tu Negocio</h1>
-        <p class="subtitle">Especialista en Workflows n8n</p>
-        <p>Transformo procesos manuales repetitivos en sistemas automatizados eficientes que trabajan 24/7 para hacer crecer tu negocio.</p>
+        <h1 class="shadow-text">Automatiza tu Negocio</h1>
+        <p class="subtitle text-white-90">Especialista en Workflows n8n</p>
+        <p class="text-white-80">Transformo procesos manuales repetitivos en sistemas automatizados eficientes que trabajan 24/7 para hacer crecer tu negocio.</p>
         <div class="cta-buttons">
           <a href="#contacto" class="cta-button cta-primary">Consulta Gratuita</a>
           <a href="#servicios" class="cta-button cta-secondary">Ver Servicios</a>
-          <!-- CTA directo a WhatsApp -->
-          <a class="cta-button cta-whatsapp" target="_blank" rel="noopener"
-             href="https://wa.me/5493512816260?text=Hola%20Fernando%2C%20quiero%20automatizar%20mi%20negocio%20con%20n8n.">
-             Hablar por WhatsApp
-          </a>
+          <a class="cta-button cta-whatsapp" target="_blank" rel="noopener" href="https://wa.me/5493512816260?text=Hola%20Fernando%2C%20quiero%20automatizar%20mi%20negocio%20con%20n8n.">WhatsApp</a>
         </div>
       </div>
     </div>
@@ -190,20 +210,51 @@
       <p class="section-subtitle">Especialista en automatización de procesos empresariales</p>
       <div class="about-content">
         <div class="profile-card">
-          <div class="profile-avatar">👨‍💻</div>
+          <!-- Foto de perfil -->
+          <img class="profile-photo" src="robot-arm.png" alt="Foto de perfil - brazo robótico" />
+
           <div class="profile-name">Fernando R. Fernández</div>
           <div class="profile-title">Especialista en n8n Workflows</div>
+
+          <!-- Contacto directo -->
           <div class="contact-info">
-            <div class="contact-item"><span class="contact-icon">📱</span><a href="tel:+5493512816260">+54 9 351 281 6260</a></div>
-            <div class="contact-item"><span class="contact-icon">📧</span><a href="mailto:fernandomfer85@gmail.com">fernandomfer85@gmail.com</a></div>
-            <div class="contact-item"><span class="contact-icon">💼</span><a href="https://www.linkedin.com/in/ernandoraulfernandez" target="_blank" rel="noopener">LinkedIn</a></div>
+            <div class="contact-item">
+              <span>📱</span><a href="tel:+5493512816260">+54 9 351 281 6260</a>
+            </div>
+            <div class="contact-item">
+              <span>📧</span><a href="mailto:fernandomfer85@gmail.com">fernandomfer85@gmail.com</a>
+            </div>
+            <div class="contact-item">
+              <span>💼</span><a href="https://www.linkedin.com/in/fernandoraulfernandez/" target="_blank" rel="noopener">LinkedIn</a>
+            </div>
+          </div>
+
+          <!-- Redes sociales con iconos -->
+          <div class="socials" aria-label="Redes sociales">
+            <!-- LinkedIn -->
+            <a href="https://www.linkedin.com/in/fernandoraulfernandez/" target="_blank" rel="noopener" aria-label="LinkedIn">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5.001 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM14.5 9c-2.485 0-4.5 2.015-4.5 4.5V21h4v-6.2c0-1.49 1.012-2.3 2.2-2.3 1.13 0 2.3.77 2.3 2.3V21h4v-6.2C22 11.34 19.66 9 16.7 9c-1.07 0-2.35.53-3.2 1.4V9h-3z"/></svg>
+            </a>
+            <!-- GitHub -->
+            <a href="https://github.com/PromFer084" target="_blank" rel="noopener" aria-label="GitHub">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5a12 12 0 0 0-3.79 23.4c.6.11.82-.26.82-.58v-2.2c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.74.08-.72.08-.72 1.2.08 1.83 1.24 1.83 1.24 1.07 1.83 2.8 1.3 3.48.99.11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.92 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.16 0 0 1.01-.32 3.3 1.23a11.4 11.4 0 0 1 6 0c2.29-1.55 3.3-1.23 3.3-1.23.66 1.64.25 2.86.12 3.16.77.84 1.24 1.9 1.24 3.22 0 4.6-2.8 5.62-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.21.69.82.58A12 12 0 0 0 12 .5z"/></svg>
+            </a>
+            <!-- WhatsApp -->
+            <a href="https://wa.me/5493512816260?text=Hola%20Fernando%2C%20quiero%20automatizar%20mi%20negocio%20con%20n8n." target="_blank" rel="noopener" aria-label="WhatsApp">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 3.5A11 11 0 0 0 3.4 19.1L2 22l3-1.2A11 11 0 1 0 20.5 3.5Zm-8.4 2.1a6.9 6.9 0 0 1 6.9 6.9 6.8 6.8 0 0 1-9.2 6.3l-.7-.3-.7.3.2-.7-.5-.7a6.8 6.8 0 0 1 4-11.1ZM9 8.4c-.2-.5-.5-.5-.8-.5h-.6c-.2 0-.5 0-.7.4s-.9.9-.9 2.2 1 . 2.7 1.1 2.9c.1.1 1.9 3 4.6 4.1 2.3.9 2.8.7 3.3.6.5-.1 1.6-.6 1.8-1.3.2-.7.2-1.3.1-1.4-.1-.1-.2-.2-.5-.3s-1.6-.8-1.8-.8-.4-.1-.6.2-.7.8-.8 1-.3.2-.6.1c-.3-.1-1.1-.4-2.1-1.3a7.7 7.7 0 0 1-1.4-1.7c-.2-.3 0-.5.1-.6l.3-.3c.1-.1.1-.2.2-.3 0-.1 0-.3 0-.4s-.5-1.2-.7-1.6Z"/></svg>
+            </a>
+            <!-- Email -->
+            <a href="mailto:fernandomfer85@gmail.com" aria-label="Email">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2Zm0 4-8 5L4 8V6l8 5 8-5z"/></svg>
+            </a>
           </div>
         </div>
-        <div class="about-text">
-          <h3>Transformando negocios a través de la automatización</h3>
-          <p>Con años de experiencia en automatización de procesos empresariales, me especializo en crear workflows personalizados en n8n que eliminan tareas repetitivas y optimizan la eficiencia operativa.</p>
-          <p>Mi enfoque se centra en comprender las necesidades específicas de cada negocio para diseñar soluciones que no solo automatizan procesos, sino que también escalan con el crecimiento de la empresa.</p>
-          <p>Desde integración de APIs hasta automatización de marketing, ayudo a empresas de todos los tamaños a liberar tiempo valioso y reducir errores manuales mediante workflows inteligentes.</p>
+
+        <div>
+          <h3 style="color:#111827;margin-bottom:.4rem">Transformando negocios a través de la automatización</h3>
+          <p style="color:#374151;margin-bottom:.6rem">Creo workflows personalizados en n8n que eliminan tareas repetitivas y optimizan la eficiencia operativa.</p>
+          <p style="color:#374151;margin-bottom:.6rem">Me enfoco en entender las necesidades de cada negocio para diseñar soluciones que escalen.</p>
+          <p style="color:#374151">Desde integraciones de APIs hasta marketing automation, libero horas de trabajo y reduzco errores.</p>
         </div>
       </div>
     </div>
@@ -214,12 +265,12 @@
       <h2 class="section-title">Mis Servicios</h2>
       <p class="section-subtitle">Soluciones completas de automatización para tu negocio</p>
       <div class="features-grid">
-        <div class="feature-card"><div class="feature-icon">🔗</div><h3>Integración de APIs</h3><p>Conecto CRM, email marketing, bases de datos, redes sociales y más en un ecosistema unificado.</p></div>
-        <div class="feature-card"><div class="feature-icon">⚡</div><h3>Automatización de Procesos</h3><p>Elimino tareas repetitivas con flujos inteligentes para que te enfoques en lo que importa.</p></div>
-        <div class="feature-card"><div class="feature-icon">📊</div><h3>Reportes Automáticos</h3><p>Dashboards y reportes que se actualizan solos para tomar decisiones rápidas.</p></div>
-        <div class="feature-card"><div class="feature-icon">🎯</div><h3>Marketing Automation</h3><p>Emails, nurturing y segmentación para maximizar conversiones.</p></div>
-        <div class="feature-card"><div class="feature-icon">💾</div><h3>Gestión de Datos</h3><p>Sincronización consistente entre plataformas.</p></div>
-        <div class="feature-card"><div class="feature-icon">🔧</div><h3>Soporte Continuo</h3><p>Mantenimiento, mejoras y optimización constante.</p></div>
+        <div class="feature-card"><div class="feature-icon">🔗</div><h3>Integración de APIs</h3><p>Conecto CRM, email marketing, bases de datos y redes sociales.</p></div>
+        <div class="feature-card"><div class="feature-icon">⚡</div><h3>Automatización de Procesos</h3><p>Flujos inteligentes que te liberan de tareas repetitivas.</p></div>
+        <div class="feature-card"><div class="feature-icon">📊</div><h3>Reportes Automáticos</h3><p>Dashboards y reportes en tiempo real.</p></div>
+        <div class="feature-card"><div class="feature-icon">🎯</div><h3>Marketing Automation</h3><p>Emails, nurturing y segmentación.</p></div>
+        <div class="feature-card"><div class="feature-icon">💾</div><h3>Gestión de Datos</h3><p>Sincronización confiable entre plataformas.</p></div>
+        <div class="feature-card"><div class="feature-icon">🔧</div><h3>Soporte Continuo</h3><p>Mantenimiento y optimización constante.</p></div>
       </div>
     </div>
   </section>
@@ -237,7 +288,7 @@
           <div class="node"><strong>📊 Dashboard</strong><br><small>Actualizar métricas</small></div>
         </div>
       </div>
-      <p style="text-align:center;margin-top:2rem;opacity:.9">Cada workflow es diseñado específicamente para las necesidades y objetivos únicos de tu negocio</p>
+      <p style="text-align:center;margin-top:1rem" class="text-white-80">Cada workflow se diseña a la medida de tus objetivos.</p>
     </div>
   </section>
 
@@ -246,13 +297,13 @@
       <h2 class="section-title">Planes de Servicios</h2>
       <p class="section-subtitle">Soluciones adaptadas a cada tipo de negocio</p>
       <div class="pricing-cards">
-        <div class="pricing-card"><h3>Workflow Básico</h3><div class="price">$99<span class="price-period"> USD</span></div>
+        <div class="pricing-card"><h3>Workflow Básico</h3><div class="price">$399<span class="price-period"> USD</span></div>
           <ul class="price-features"><li>Integración de 2-3 aplicaciones</li><li>1 workflow automatizado</li><li>Documentación completa</li><li>30 días de soporte</li><li>Capacitación básica</li></ul>
         </div>
-        <div class="pricing-card featured"><h3>Workflow Profesional</h3><div class="price">$199<span class="price-period"> USD</span></div>
+        <div class="pricing-card featured"><h3>Workflow Profesional</h3><div class="price">$899<span class="price-period"> USD</span></div>
           <ul class="price-features"><li>Integración de 5-8 aplicaciones</li><li>3-5 workflows complejos</li><li>Lógica condicional avanzada</li><li>90 días de soporte premium</li><li>Capacitación completa del equipo</li><li>Optimización post-implementación</li></ul>
         </div>
-        <div class="pricing-card"><h3>Workflow Enterprise</h3><div class="price">$499<span class="price-period"> USD</span></div>
+        <div class="pricing-card"><h3>Workflow Enterprise</h3><div class="price">$1899<span class="price-period"> USD</span></div>
           <ul class="price-features"><li>Integración ilimitada</li><li>Workflows complejos interconectados</li><li>Dashboard personalizado</li><li>6 meses de soporte premium</li><li>Capacitación avanzada completa</li><li>Consultoría estratégica incluida</li></ul>
         </div>
       </div>
@@ -267,22 +318,18 @@
         <div class="contact-info-section">
           <h3>Información de Contacto</h3>
           <div class="contact-method">
-            <span class="contact-method-icon">📱</span>
             <div><strong>WhatsApp</strong><br>
-              <a target="_blank" rel="noopener"
-                 href="https://wa.me/5493512816260?text=Hola%20Fernando%2C%20quiero%20automatizar%20mi%20negocio%20con%20n8n.">
-                 Enviar mensaje ahora
-              </a>
+              <a target="_blank" rel="noopener" href="https://wa.me/5493512816260?text=Hola%20Fernando%2C%20quiero%20automatizar%20mi%20negocio%20con%20n8n.">Enviar mensaje ahora</a>
             </div>
           </div>
-          <div class="contact-method"><span class="contact-method-icon">📧</span>
+          <div class="contact-method">
             <div><strong>Email</strong><br><a href="mailto:fernandomfer85@gmail.com">fernandomfer85@gmail.com</a></div>
           </div>
-          <div class="contact-method"><span class="contact-method-icon">💼</span>
-            <div><strong>LinkedIn</strong><br><a href="https://www.linkedin.com/in/ernandoraulfernandez" target="_blank" rel="noopener">/in/ernandoraulfernandez</a></div>
+          <div class="contact-method">
+            <div><strong>LinkedIn</strong><br><a href="https://www.linkedin.com/in/fernandoraulfernandez/" target="_blank" rel="noopener">/in/fernandoraulfernandez</a></div>
           </div>
         </div>
-        <form class="contact-form">
+        <form class="contact-form" onsubmit="event.preventDefault(); window.open('https://wa.me/5493512816260?text=Hola%20Fernando%2C%20vengo%20desde%20tu%20web%20y%20quiero%20hablar%20sobre%20automatizaciones%20n8n','_blank');">
           <div class="form-row">
             <div class="form-group"><input type="text" placeholder="Tu nombre" required></div>
             <div class="form-group"><input type="email" placeholder="Tu email" required></div>
@@ -295,7 +342,7 @@
             <option>Reportes/Dashboards</option>
           </select></div>
           <div class="form-group"><textarea placeholder="Contame brevemente tu necesidad"></textarea></div>
-          <button class="submit-btn" type="submit">Enviar</button>
+          <button class="submit-btn" type="submit">Enviar (abre WhatsApp)</button>
         </form>
       </div>
     </div>
@@ -305,21 +352,5 @@
     <div class="container footer-content">
       <div class="footer-section">
         <h4>n8n Workflows</h4>
-        <p>Automatización a medida para que tu negocio gane tiempo, orden y escalabilidad.</p>
-      </div>
-      <div class="footer-section">
-        <h4>Contacto</h4>
-        <p><a href="mailto:fernandomfer85@gmail.com" style="color:#fff;text-decoration:underline">fernandomfer85@gmail.com</a></p>
-      </div>
-    </div>
-    <small>© <script>document.write(new Date().getFullYear())</script> Fernando R. Fernández</small>
-  </footer>
-
-  <!-- Botón flotante de WhatsApp -->
-  <a class="wafloat" target="_blank" rel="noopener"
-     href="https://wa.me/5493512816260?text=Hola%20Fernando%2C%20quiero%20automatizar%20mi%20negocio%20con%20n8n.">
-     WhatsApp
-  </a>
-</body>
-</html>
+        <p>Automatización a medida para ganar tiempo,
 
