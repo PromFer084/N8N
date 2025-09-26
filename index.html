@@ -19,6 +19,10 @@
       --rojo-1:#e74c3c; --rojo-2:#c0392b;
       --oscuro:#1f2937; --claro:#ffffff; --gris:#4b5563;
       --verde:#16a34a; --rojo:#ef4444;
+      /* Accesible (daltónicos / alto contraste) */
+      --a11y-azul:#1245F5;      /* primario seguro */
+      --a11y-azul-2:#0A66C2;    /* secundario seguro */
+      --a11y-borde:#0a1a4a;     /* bordes oscuros */
       --blanco-90:rgba(255,255,255,.94);
     }
 
@@ -43,11 +47,11 @@
     }
     .nav-links a:hover{background:rgba(255,255,255,.22);transform:translateY(-1px)}
 
-    /* ===== Hero (compacto, sin botones) ===== */
+    /* ===== Hero ===== */
     .hero{
       background:linear-gradient(135deg,var(--rojo-1),var(--rojo-2));
       color:#fff;
-      padding: clamp(92px, 12vw, 120px) 0 36px;
+      padding: clamp(92px, 12vw, 120px) 0 36px; /* compacto abajo */
       text-align:center;position:relative;overflow:hidden
     }
     .hero h1,.hero .section-subtitle{color:var(--blanco-90)}
@@ -60,7 +64,7 @@
     .about-content{display:grid;grid-template-columns:1fr 2fr;gap:2.2rem;align-items:center}
     .profile-card{background:#fff;padding:1.8rem;border-radius:16px;box-shadow:0 10px 28px rgba(0,0,0,.06);text-align:center}
 
-    /* Foto de perfil */
+    /* Foto / Perfil */
     .profile-photo{
       width:160px;height:160px;border-radius:50%;object-fit:cover;object-position:center;
       margin:0 auto 1rem;display:block;box-shadow:0 10px 22px rgba(231,76,60,.28);border:4px solid #fff;background:#fff
@@ -90,7 +94,6 @@
     /* ===== Workflow oscuro ===== */
     .workflow-demo{padding:64px 0;background:linear-gradient(135deg,#243447,#2f3f52);color:#fff}
     .workflow-demo .section-title{color:#fff}
-    .workflow-demo .section-subtitle{color:rgba(255,255,255,.88)}
     .workflow-visual{background:rgba(255,255,255,.08);border-radius:16px;padding:2rem;margin:1.6rem 0;border:1px solid rgba(255,255,255,.18)}
     .workflow-nodes{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
     .node{background:#fff;color:#111827;padding:1rem;border-radius:12px;box-shadow:0 10px 22px rgba(0,0,0,.18);text-align:center;flex:1;min-width:140px;position:relative;transition:transform .25s}
@@ -98,7 +101,7 @@
     .node::after{content:"→";position:absolute;right:-18px;top:50%;transform:translateY(-50%);color:var(--rojo-1);font-weight:800}
     .node:last-child::after{display:none}
 
-    /* ===== Pricing (hover suave + selección persistente) ===== */
+    /* ===== Pricing ===== */
     .pricing{padding:64px 0;background:#f8fafc}
     .pricing-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem;margin-top:1.6rem}
     .pricing-card{
@@ -116,8 +119,10 @@
     .price{font-size:clamp(2rem,5vw,2.8rem);font-weight:900;margin:.6rem 0}
     .price-period{opacity:.9}
     .price-features{text-align:left;margin:1rem 0}
-    .price-features li{margin:.5rem 0;padding-left:1.4rem;position:relative}
-    .price-features li::before{content:"✓";position:absolute;left:0;color:#10b981;font-weight:900}
+    .price-features li{margin:.5rem 0;padding-left:1.6rem;position:relative}
+    .price-features li::before{
+      content:"✓";position:absolute;left:0;color:#10b981;font-weight:900;
+    }
 
     @media (hover: hover) and (pointer: fine){
       .pricing-cards:hover .pricing-card:not(.selected):not(:hover){
@@ -183,30 +188,66 @@
     }
     .fab:focus-visible{outline:3px solid #fff; outline-offset:3px}
     .fab:hover{transform:translateY(-2px); filter:brightness(1.05)}
-
     .fab-whatsapp{right:18px; background:#25D366}
     .fab-a11y{right:86px; background:#111; font-weight:900; font-size:20px}
 
-    /* ===== Versión accesible (alto contraste, fuente grande, daltónicos) ===== */
-    body.a11y{font-size:18px; line-height:1.8}
+    /* ===== Versión accesible (alto contraste + daltónicos + baja visión) ===== */
+    body.a11y{font-size:20px; line-height:1.9}
     body.a11y a{text-decoration:underline}
     body.a11y header, body.a11y .hero{background:#111 !important}
     body.a11y .hero h1, body.a11y .hero .section-subtitle{color:#fff}
-    body.a11y .feature-icon{background:#1245F5}
-    /* Tarjetas con paleta segura (azules) */
+
+    /* Cards & listas */
+    body.a11y .feature-icon{background:var(--a11y-azul)}
+    body.a11y :focus-visible{outline:4px solid var(--a11y-azul); outline-offset:2px}
+
+    /* Pricing con paleta segura */
     body.a11y .pricing-card:is(:hover,:focus-visible),
     body.a11y .pricing-card.selected{
-      background:linear-gradient(135deg,#1245F5 0%, #0A66C2 100%) !important;
+      background:linear-gradient(135deg,var(--a11y-azul) 0%, var(--a11y-azul-2) 100%) !important;
       color:#fff; border-color:transparent;
     }
-    /* No depender solo del color para checks */
-    body.a11y .price-features li::before{content:"•"; color:#000}
-    /* Foco más visible */
-    body.a11y :focus-visible{outline:3px solid #1245F5; outline-offset:2px}
+    /* ✅ Checks accesibles en precios (en vez de puntos) */
+    body.a11y .price-features li{padding-left:1.8rem}
+    body.a11y .price-features li::before{
+      content:"✔"; color:var(--a11y-azul); font-weight:900;
+      position:absolute; left:0; top:.05rem; font-size:1.05em;
+    }
 
+    /* === A11Y: CONTACTO mejorado === */
+    body.a11y .contact{background:#0d0f12 !important; color:#fff}
+    body.a11y .contact .section-title{color:#fff}
+    body.a11y .contact .section-subtitle{color:#e5e7eb}
+    body.a11y .contact-grid{align-items:stretch}
+
+    /* Tarjetas de info con alto contraste */
+    body.a11y .contact-method{
+      background:#171923 !important; color:#fff;
+      border:2px solid var(--a11y-azul);
+    }
+    body.a11y .contact-method a{color:#fff !important}
+
+    /* Formulario accesible */
+    body.a11y .contact-form{
+      background:#fff !important; border-radius:16px; border:3px solid var(--a11y-azul);
+    }
+    body.a11y input, body.a11y textarea, body.a11y select{
+      background:#fff !important; color:#000 !important;
+      border:2px solid var(--a11y-borde) !important; font-size:1.12em;
+    }
+    body.a11y input::placeholder, body.a11y textarea::placeholder{
+      color:#111 !important; opacity:.95;
+    }
+    body.a11y .submit-btn{
+      background:var(--a11y-azul) !important; color:#fff !important;
+      border:none !important; font-weight:900; letter-spacing:.2px;
+    }
+    body.a11y .submit-btn:hover{filter:brightness(1.1)}
+
+    /* Banner a11y */
     .a11y-banner{
       display:none; position:fixed; top:64px; left:50%; transform:translateX(-50%);
-      background:#fff; color:#111; border:1px solid #e5e7eb; border-left:4px solid #1245F5;
+      background:#fff; color:#111; border:1px solid #e5e7eb; border-left:4px solid var(--a11y-azul);
       padding:.5rem .8rem; border-radius:10px; z-index:1100; box-shadow:0 10px 24px rgba(0,0,0,.12)
     }
     body.a11y .a11y-banner{display:flex; gap:.6rem; align-items:center}
@@ -292,7 +333,7 @@
     </div>
   </section>
 
-  <!-- ===== Servicios ===== -->
+  <!-- ===== Servicios (resumen) ===== -->
   <section class="features" id="servicios">
     <div class="container">
       <h2 class="section-title">Mis Servicios</h2>
@@ -376,7 +417,7 @@
             <div><strong>Email</strong><br><a href="mailto:fernandomfer85@gmail.com">fernandomfer85@gmail.com</a></div>
           </div>
           <div class="contact-method">
-            <div><strong>LinkedIn</strong><br><a href="https://www.linkedin.com/in/fernandoraulfernandez/" target="_blank" rel="noopener">fernandoraulfernandez</a></div>
+            <div><strong>LinkedIn</strong><br><a href="https://www.linkedin.com/in/fernandoraulfernandez/" target="_blank" rel="noopener">/in/fernandoraulfernandez</a></div>
           </div>
         </div>
 
@@ -434,7 +475,7 @@
     <small>© <script>document.write(new Date().getFullYear())</script> Fernando R. Fernández</small>
   </footer>
 
-  <!-- ===== TOAST (mensaje flotante) ===== -->
+  <!-- ===== TOAST ===== -->
   <div id="toast" class="toast" role="status" aria-live="polite" aria-atomic="true" hidden>
     <span class="emoji" aria-hidden="true">🤖</span>
     <span class="msg">¡Gracias! Tu consulta fue enviada</span>
@@ -442,7 +483,6 @@
 
   <!-- ===== FABs: WhatsApp + Accesible ===== -->
   <a class="fab fab-whatsapp" href="https://wa.me/5493512816260?text=Hola%20Fernando%2C%20quiero%20automatizar%20mi%20negocio%20con%20n8n." target="_blank" rel="noopener" aria-label="Abrir chat de WhatsApp">
-    <!-- Ícono WhatsApp -->
     <svg viewBox="0 0 256 256" width="28" height="28" aria-hidden="true"><path fill="#fff" d="M128 20c-59.6 0-108 45.8-108 102.4 0 19.9 6 38.5 16.3 54l-10.7 39.5 40.5-10.7c15 9.2 32.8 14.5 52 14.5 59.6 0 108-45.8 108-102.4S187.6 20 128 20zm0 187.2c-17.8 0-34.3-5.2-48.1-14.1l-3.4-2.2-24 6.3 6.4-23.6-2.2-3.6c-9.9-14.8-15.7-32.4-15.7-51.1 0-49.2 39.8-89.2 88.9-89.2s88.9 40 88.9 89.2-39.8 89.3-88.8 89.3zm52.6-66.3c-2.9-1.7-17.1-9.4-19.7-10.4-2.6-1-4.5-1.7-6.5 1.7s-7.4 10.4-9.1 12.5c-1.7 2-3.3 2.2-6.2.7-2.9-1.7-12.2-4.4-23.2-14.1-8.6-7.4-14.4-16.6-16-19.4-1.7-2.9-.2-4.5 1.5-6.1 1.6-1.6 2.9-3.3 4.3-5.1 1.4-1.7 1.9-2.9 2.9-4.8 1-2 0.5-3.7-.3-5.1-.7-1.7-6.5-15.7-8.9-21.5-2.3-5.6-4.7-4.8-6.5-4.9-1.7-.1-3.7-.1-5.6-.1-2 .1-5.1.7-7.7 3.7s-10.1 9.9-10.1 24.2 10.4 28 11.9 30c1.4 2 20.5 31.2 49.7 43.7 6.9 3 12.3 4.8 16.5 6.1 6.9 2.2 13.1 1.9 18.1 1.2 5.5-.8 17.1-7 19.6-13.8 2.4-6.9 2.4-12.8 1.6-14.1-.7-1.2-2.6-2-5.5-3.7z"/></svg>
   </a>
 
@@ -551,8 +591,3 @@
   </script>
 </body>
 </html>
-
-
-
-
-
