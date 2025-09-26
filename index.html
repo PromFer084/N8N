@@ -18,7 +18,8 @@
     :root{
       --rojo-1:#e74c3c; --rojo-2:#c0392b;
       --oscuro:#1f2937; --claro:#ffffff; --gris:#4b5563;
-      --blanco-90:rgba(255,255,255,.94); --blanco-80:rgba(255,255,255,.88);
+      --verde:#16a34a; --rojo:#ef4444;
+      --blanco-90:rgba(255,255,255,.94);
     }
 
     /* ===== Tipos ===== */
@@ -46,16 +47,15 @@
     .hero{
       background:linear-gradient(135deg,var(--rojo-1),var(--rojo-2));
       color:#fff;
-      padding: clamp(92px, 12vw, 120px) 0 36px; /* compacto abajo */
+      padding: clamp(92px, 12vw, 120px) 0 36px;
       text-align:center;position:relative;overflow:hidden
     }
     .hero h1,.hero .section-subtitle{color:var(--blanco-90)}
-    .hero p{color:var(--blanco-90);max-width:920px;margin:12px auto 0}
 
     /* ===== Secciones ===== */
     .about{padding:64px 0;background:#f8fafc}
     .section-title{text-align:center;margin-bottom:.6rem;color:#111827;font-weight:900}
-    .section-subtitle{text-align:center;color:var(--gris);margin:0 auto 2rem;max-width:680px}
+    .section-subtitle{text-align:center;color:#4b5563;margin:0 auto 2rem;max-width:680px}
 
     .about-content{display:grid;grid-template-columns:1fr 2fr;gap:2.2rem;align-items:center}
     .profile-card{background:#fff;padding:1.8rem;border-radius:16px;box-shadow:0 10px 28px rgba(0,0,0,.06);text-align:center}
@@ -68,7 +68,7 @@
     .profile-name{font-weight:800;margin-bottom:.3rem;color:#111827}
     .profile-title{color:var(--rojo-1);font-weight:700;margin-bottom:1rem}
 
-    /* Redes con colores de marca */
+    /* Redes */
     .socials{display:flex;justify-content:center;gap:.6rem;margin-top:.6rem;flex-wrap:wrap}
     .socials a{
       display:inline-flex;align-items:center;justify-content:center;
@@ -77,7 +77,6 @@
     .socials svg{width:20px;height:20px;fill:#fff}
     .socials a.linkedin{background:#0A66C2}
     .socials a.github{background:#24292E}
-    .socials a.whatsapp{background:#25D366}
     .socials a.email{background:#EA4335}
     .socials a:hover{transform:translateY(-2px);filter:brightness(1.07)}
 
@@ -91,7 +90,7 @@
     /* ===== Workflow oscuro ===== */
     .workflow-demo{padding:64px 0;background:linear-gradient(135deg,#243447,#2f3f52);color:#fff}
     .workflow-demo .section-title{color:#fff}
-    .workflow-demo .section-subtitle{color:var(--blanco-80)}
+    .workflow-demo .section-subtitle{color:rgba(255,255,255,.88)}
     .workflow-visual{background:rgba(255,255,255,.08);border-radius:16px;padding:2rem;margin:1.6rem 0;border:1px solid rgba(255,255,255,.18)}
     .workflow-nodes{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
     .node{background:#fff;color:#111827;padding:1rem;border-radius:12px;box-shadow:0 10px 22px rgba(0,0,0,.18);text-align:center;flex:1;min-width:140px;position:relative;transition:transform .25s}
@@ -99,16 +98,12 @@
     .node::after{content:"→";position:absolute;right:-18px;top:50%;transform:translateY(-50%);color:var(--rojo-1);font-weight:800}
     .node:last-child::after{display:none}
 
-    /* ===== Pricing (hover exclusivo + atenuación suave) ===== */
+    /* ===== Pricing (hover suave + selección persistente) ===== */
     .pricing{padding:64px 0;background:#f8fafc}
-    .pricing-cards{
-      display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-      gap:1rem;margin-top:1.6rem
-    }
+    .pricing-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem;margin-top:1.6rem}
     .pricing-card{
       position:relative;background:#ffffff;border-radius:18px;padding:1.8rem;text-align:center;
-      border:1px solid #eaeaea;
-      box-shadow:0 10px 24px rgba(0,0,0,.06);
+      border:1px solid #eaeaea; box-shadow:0 10px 24px rgba(0,0,0,.06);
       transition:transform .38s cubic-bezier(.22,1,.36,1),
                  box-shadow .38s cubic-bezier(.22,1,.36,1),
                  background .38s cubic-bezier(.22,1,.36,1),
@@ -124,13 +119,11 @@
     .price-features li{margin:.5rem 0;padding-left:1.4rem;position:relative}
     .price-features li::before{content:"✓";position:absolute;left:0;color:#10b981;font-weight:900}
 
-    /* Atenuar hermanas cuando el contenedor tiene hover (solo dispositivos con hover real) */
     @media (hover: hover) and (pointer: fine){
-      .pricing-cards:hover .pricing-card{
+      .pricing-cards:hover .pricing-card:not(.selected):not(:hover){
         opacity:.55; filter:saturate(.9) grayscale(.06); transform:none;
       }
     }
-    /* Activa (hover/focus) suave y exclusiva */
     .pricing-card:is(:hover,:focus-visible){
       opacity:1!important; filter:none!important;
       transform:translateY(-6px) scale(1.01);
@@ -142,6 +135,10 @@
     .pricing-card:is(:hover,:focus-visible) .price-period,
     .pricing-card:is(:hover,:focus-visible) h3{color:#fff}
     .pricing-card:is(:hover,:focus-visible) .price-features li::before{color:#fff}
+    .pricing-card.selected{
+      background:linear-gradient(135deg, var(--rojo-1) 0%, var(--rojo-2) 100%);
+      color:#fff; border-color:transparent; box-shadow:0 18px 40px rgba(0,0,0,.12);
+    }
 
     /* ===== Contacto ===== */
     .contact{padding:64px 0;background:linear-gradient(135deg,var(--rojo-1),var(--rojo-2));color:#fff;text-align:center}
@@ -159,8 +156,25 @@
     textarea{resize:vertical;min-height:110px}
     .submit-btn{background:#fff;color:var(--rojo-1);padding:.9rem 1.2rem;border:none;border-radius:50px;font-weight:900;cursor:pointer;transition:.25s;width:100%}
     .submit-btn:hover{background:#f8f9fa;transform:translateY(-2px);box-shadow:0 10px 25px rgba(255,255,255,.25)}
-    .ok{background:#10b981;color:#fff;padding:.6rem;border-radius:10px;margin-top:.6rem;display:none}
 
+    /* ===== Toast (aviso flotante) ===== */
+    .toast{
+      position:fixed; bottom:18px; left:50%;
+      transform:translateX(-50%) translateY(12px);
+      opacity:0; pointer-events:none;
+      display:flex; align-items:center; gap:.6rem;
+      padding:.8rem 1rem; border-radius:12px;
+      background:#fff; color:var(--verde);
+      border:1px solid #e5e7eb; border-left:4px solid var(--verde);
+      box-shadow:0 12px 30px rgba(0,0,0,.18);
+      font-weight:800; z-index:1200;
+      transition:opacity .25s ease, transform .25s ease;
+    }
+    .toast.show{opacity:1; transform:translateX(-50%) translateY(0)}
+    .toast.error{color:var(--rojo); border-left-color:var(--rojo)}
+    .toast .emoji{font-size:1.3rem}
+    .toast .msg{white-space:nowrap}
+    
     /* ===== Footer ===== */
     footer{background:var(--oscuro);color:#fff;text-align:center;padding:2rem 0}
     .footer-content{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;margin-bottom:1rem}
@@ -173,6 +187,7 @@
       .contact-grid{grid-template-columns:1fr}
       .form-row{grid-template-columns:1fr}
       .nav-links{display:none}
+      .toast .msg{white-space:normal}
     }
   </style>
 </head>
@@ -190,7 +205,7 @@
     </nav>
   </header>
 
-  <!-- ===== Hero (solo encabezado) ===== -->
+  <!-- ===== Hero ===== -->
   <section class="hero">
     <div class="container">
       <h1 class="shadow-text">Automatiza tu Negocio</h1>
@@ -209,7 +224,6 @@
           <div class="profile-name">Fernando R. Fernández</div>
           <div class="profile-title">Especialista en n8n Workflows</div>
 
-          <!-- Redes sociales -->
           <div class="socials" aria-label="Redes sociales">
             <a class="linkedin" href="https://www.linkedin.com/in/fernandoraulfernandez/" target="_blank" rel="noopener" aria-label="LinkedIn">
               <svg viewBox="0 0 24 24"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5.001 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM14.5 9c-2.485 0-4.5 2.015-4.5 4.5V21h4v-6.2c0-1.49 1.012-2.3 2.2-2.3 1.13 0 2.3.77 2.3 2.3V21h4v-6.2C22 11.34 19.66 9 16.7 9c-1.07 0-2.35.53-3.2 1.4V9h-3z"/></svg>
@@ -263,7 +277,6 @@
           <div class="node"><strong>📊 Dashboard</strong><br><small>Actualizar métricas</small></div>
         </div>
       </div>
-      <p style="text-align:center;margin-top:1rem;color:var(--blanco-80)">Cada workflow se diseña a la medida de tus objetivos.</p>
     </div>
   </section>
 
@@ -271,9 +284,8 @@
   <section class="pricing" id="precios">
     <div class="container">
       <h2 class="section-title">Planes de Servicios</h2>
-      <p class="section-subtitle">Soluciones adaptadas a cada tipo de negocio</p>
       <div class="pricing-cards">
-        <div class="pricing-card" role="button" tabindex="0" aria-label="Workflow Básico">
+        <div class="pricing-card" role="button" tabindex="0" aria-pressed="false">
           <h3>Workflow Básico</h3>
           <div class="price">$99<span class="price-period"> USD</span></div>
           <ul class="price-features">
@@ -284,8 +296,7 @@
             <li>Capacitación básica</li>
           </ul>
         </div>
-
-        <div class="pricing-card" role="button" tabindex="0" aria-label="Workflow Profesional">
+        <div class="pricing-card" role="button" tabindex="0" aria-pressed="false">
           <h3>Workflow Profesional</h3>
           <div class="price">$299<span class="price-period"> USD</span></div>
           <ul class="price-features">
@@ -297,8 +308,7 @@
             <li>Optimización post-implementación</li>
           </ul>
         </div>
-
-        <div class="pricing-card" role="button" tabindex="0" aria-label="Workflow Enterprise">
+        <div class="pricing-card" role="button" tabindex="0" aria-pressed="false">
           <h3>Workflow Enterprise</h3>
           <div class="price">$499<span class="price-period"> USD</span></div>
           <ul class="price-features">
@@ -331,18 +341,16 @@
             <div><strong>Email</strong><br><a href="mailto:fernandomfer85@gmail.com">fernandomfer85@gmail.com</a></div>
           </div>
           <div class="contact-method">
-            <div><strong>LinkedIn</strong><br><a href="https://www.linkedin.com/in/fernandoraulfernandez/" target="_blank" rel="noopener">fernandoraulfernandez</a></div>
+            <div><strong>LinkedIn</strong><br><a href="https://www.linkedin.com/in/fernandoraulfernandez/" target="_blank" rel="noopener">/in/fernandoraulfernandez</a></div>
           </div>
         </div>
 
-        <!-- FormSubmit: envía a tu email y redirige de vuelta -->
+        <!-- FormSubmit: AJAX (no scroll) + fallback por action clásico -->
         <form class="contact-form" action="https://formsubmit.co/fernandomfer85@gmail.com" method="POST">
-          <!-- Cambiá esta URL si tu Pages es otra -->
-          <input type="hidden" name="_next" value="https://promfer084.github.io/N8N/?sent=1#contacto">
+          <input type="hidden" name="_next" value="https://promfer084.github.io/N8N/?sent=1">
           <input type="hidden" name="_subject" value="Consulta desde la web">
           <input type="hidden" name="_template" value="table">
           <input type="hidden" name="_captcha" value="false">
-          <!-- honeypot anti-spam -->
           <input type="text" name="_honey" style="display:none">
 
           <div class="form-row">
@@ -360,7 +368,6 @@
           </div>
           <div class="form-group"><textarea name="mensaje" placeholder="Contame brevemente tu necesidad"></textarea></div>
           <button class="submit-btn" type="submit">Enviar</button>
-          <div id="ok" class="ok">¡Gracias! Tu consulta fue enviada.</div>
         </form>
       </div>
     </div>
@@ -392,18 +399,90 @@
     <small>© <script>document.write(new Date().getFullYear())</script> Fernando R. Fernández</small>
   </footer>
 
-  <!-- Mostrar “enviado” y limpiar al volver con ?sent=1 -->
+  <!-- ===== TOAST (mensaje flotante) ===== -->
+  <div id="toast" class="toast" role="status" aria-live="polite" aria-atomic="true" hidden>
+    <span class="emoji" aria-hidden="true">🤖</span>
+    <span class="msg">¡Gracias! Tu consulta fue enviada</span>
+  </div>
+
+  <!-- ===== JS: FormSubmit AJAX (no scroll) + selección de tarjetas + toast ===== -->
   <script>
+    // --- Toast helpers ---
     (function(){
-      const p = new URLSearchParams(location.search);
-      if(p.get('sent') === '1'){
-        const form = document.querySelector('.contact-form');
-        if(form) form.reset();
-        const ok = document.getElementById('ok');
-        if(ok) ok.style.display = 'block';
-        // limpiar el parámetro de la URL sin recargar
-        history.replaceState({}, '', location.href.replace(/[?&]sent=1/, ''));
+      let hideTimer = null;
+      window.showToast = function({type='ok', message='¡Gracias! Tu consulta fue enviada', emoji='🤖', duration=5000}){
+        const toast = document.getElementById('toast');
+        toast.classList.remove('error');
+        if(type === 'error'){ toast.classList.add('error'); emoji = '⚠️'; }
+        toast.querySelector('.emoji').textContent = emoji;
+        toast.querySelector('.msg').textContent = message;
+        toast.hidden = false;
+        toast.classList.add('show');
+        clearTimeout(hideTimer);
+        hideTimer = setTimeout(()=>{ toast.classList.remove('show'); }, duration);
+        // quitar del layout después de la animación
+        toast.addEventListener('transitionend', () => { if(!toast.classList.contains('show')) toast.hidden = true; }, {once:true});
+      };
+    })();
+
+    // --- FormSubmit AJAX ---
+    (function(){
+      const form = document.querySelector('.contact-form');
+      if(!form) return;
+
+      form.addEventListener('submit', async (e)=>{
+        e.preventDefault(); // evita navegación → NO scroll
+        const honey = form.querySelector('input[name="_honey"]');
+        if (honey && honey.value) return;
+
+        const btn = form.querySelector('button[type="submit"]');
+        const oldTxt = btn.textContent;
+        btn.disabled = true; btn.textContent = 'Enviando...';
+
+        const fd = new FormData(form);
+        fd.set('_subject','Consulta desde la web');
+        fd.set('_template','table');
+        fd.set('_captcha','false');
+
+        try{
+          const res = await fetch('https://formsubmit.co/ajax/fernandomfer85@gmail.com', {
+            method: 'POST',
+            body: fd,
+            headers: {'Accept':'application/json'}
+          });
+          if(!res.ok) throw new Error('network');
+          const data = await res.json();
+          if(data.success === 'true' || data.message){
+            form.reset();
+            showToast({type:'ok', message:'¡Gracias! Tu consulta fue enviada', emoji:'🤖', duration:5000});
+          } else {
+            throw new Error('api');
+          }
+        }catch(ex){
+          showToast({type:'error', message:'Ups, no pudimos enviar. Probá nuevamente.', emoji:'⚠️', duration:5000});
+        }finally{
+          btn.disabled = false; btn.textContent = oldTxt;
+        }
+      });
+    })();
+
+    // --- Selección persistente de tarjetas ---
+    (function(){
+      const cards = document.querySelectorAll('.pricing-card');
+      function select(card){
+        cards.forEach(c => { c.classList.remove('selected'); c.setAttribute('aria-pressed','false'); });
+        card.classList.add('selected');
+        card.setAttribute('aria-pressed','true');
       }
+      cards.forEach(card=>{
+        card.addEventListener('click', ()=>select(card));
+        card.addEventListener('keydown', (e)=>{
+          if(e.key === 'Enter' || e.key === ' '){
+            e.preventDefault();
+            select(card);
+          }
+        });
+      });
     })();
   </script>
 </body>
